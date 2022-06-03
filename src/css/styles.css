@@ -1,6 +1,6 @@
 body {
-    padding: 15px;
     box-sizing: border-box;
+    background-color: rgb(220, 220, 220);
 }
 img {
     width: 100%;
@@ -14,6 +14,7 @@ ul {
 label, p, h1, h2, h3, h4, h5, h6 {
     margin: 0;
 }
+
 #map {
         position: absolute;
         top: 0;
@@ -21,44 +22,49 @@ label, p, h1, h2, h3, h4, h5, h6 {
         width: 100%;
         height: 300px;
 }
+.map-wrap {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin-left: 30px;
+    overflow: hidden;
+    border-radius: 10px;
+}
 
 .container {
     display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1170px;
     
-    
+}
+
+.current-weather {
+    width: 250px;
+    margin-right: 30px;
+    padding: 100px 30px 15px 30px;
+    background-color: #fff;
+    box-shadow: -200px 0 0 200px #fff, 2px 0px 10px 5px rgba(103, 103, 103, 0.3)
 }
 .highlights {
     display: flex;
     height: 600px;
 }
-.weather-wrap {
-    width: 70%;
-    padding: 15px;
-    display: flex;
-    justify-content: space-between;
-    margin-left: auto;
-    margin-right: auto;
-}
-.map-wrap {
-    position: relative;
-    width: 200px;
-    height: 200px;
 
-    overflow: hidden;
-    border-radius: 10px;
-
+.iconaaa {
+    fill: black;
 }
+
 .weather-wrap {
-    padding-top: 15px;
+    padding-top: 100px;
     padding-bottom: 15px;
+    margin-bottom: 30px;
 }
 .weather-current {
-    background-color: rgb(209, 209, 209);
+    background-color: rgb(220, 220, 220);
     border-radius: 10px;
     padding: 10px;
-    width: 300px;
     text-align: center;
-    margin-right: 15px;
 }
 
 .weather-current-icon {
@@ -66,6 +72,7 @@ label, p, h1, h2, h3, h4, h5, h6 {
     height: 60px;
     margin-left: auto;
     margin-right: auto;
+    fill: #000000;
 }
 
 .weather-daily {
@@ -80,7 +87,7 @@ label, p, h1, h2, h3, h4, h5, h6 {
     margin: 10px;
     text-align: center;
     padding: 10px;
-    background-color: rgb(209, 209, 209);
+    background-color: #fff;
     border-radius: 10px;
 }
 .weather-daily-icon {
@@ -93,69 +100,22 @@ label, p, h1, h2, h3, h4, h5, h6 {
     align-items: center;
     justify-content: center;
 }
-.btn,
-.form-group {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: auto;
-    margin-left: auto;
-}
-.page-size {
-    padding: 7px;
-}
-.is-hidden {
-    display: none;
-}
-.form-control {
-    width: 50%;
-    margin-right: 15px;
-}
 
-.main-section {
-    margin-top: 15px;
-}
-
-.articles-list {
+.weather-highlights {
     display: flex;
     flex-wrap: wrap;
+    height: 300px;
+
     margin: -15px;
-    list-style: none;
 }
 
-.article {
-    border: 1px solid black;
+.weather-highlights-item {
+    width: calc((100% - 6*15px)/3);
     padding: 10px;
     margin: 15px;
-    width: calc((100% - 6 * 15px) / 3);
-    text-align: center;
-    
+    background-color: #fff;
+    border-radius: 10px;
 }
-.article a {
-    text-decoration: none;
-    color: inherit;
-}
-
-.title {
-    font-size:24px;
-padding-left: 30px;
-padding-right: 30px;
-}
-
-.description {
-    font-size: 16px;
-}
-
-
-.news-container {
-    width: 70%;
-    padding: 30px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-
-
 
 
 .clock {
@@ -170,21 +130,22 @@ padding-right: 30px;
     background-size: cover;
     border: 4px;
     /* box-shadow: 15px 15px 15px rgba(255, 255, 255, 0.5); */
-    box-shadow: 0em -1.2em 1.2em rgba(255, 255, 255, 0.06),
-        inset 0em -1.2em 1.2em rgba(255, 255, 255, 0.06),
-        0em 1.2em 1.2em rgba(0, 0, 0, 0.3),
-        inset 0em 1.2em 1.2em rgba(0, 0, 0, 0.3);
+    box-shadow: 0em -0.5em 0.5em rgba(255, 255, 255, 0.06),
+        inset 0em -0.5em 0.5em rgba(255, 255, 255, 0.06),
+        0em 0.5em 0.5em rgba(0, 0, 0, 0.3),
+        inset 0em 0.5em 0.5em rgba(75, 75, 75, 0.3);
     border-radius: 50%;
-    margin-top: auto;
-    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
 }
 
-body.light .clock {
+/* body.light .clock {
     box-shadow: 0em -1.2em 1.2em rgba(255, 255, 255, 0.3),
         inset 1em 1em -1em rgba(255, 255, 255, 0.3),
         0em -1.2em -1.2em rgba(0, 0, 0, 0.5),
         inset 1em -1em 1em rgba(0, 0, 0, 0.1);
-}
+} */
 
 
 /* The small circle int the center */
@@ -203,9 +164,9 @@ body.light .clock {
     /* kept as a high value, since wanted at top */
 }
 
-body.light .clock:before {
+/* body.light .clock:before {
     background: #1a74be;
-}
+} */
 
 
 .clock .hour,
@@ -255,7 +216,7 @@ body.light .clock:before {
 .hr:before {
     content: '';
     position: absolute;
-    width: 7.5px;
+    width: 5px;
     /* height: 80px; */
     height: 40px;
     background: #827f80;
@@ -267,7 +228,7 @@ body.light .clock:before {
 .mn:before {
     content: '';
     position: absolute;
-    width: 3.5px;
+    width: 2px;
     /* height: 100px; */
     height: 60px;
     background: #000000;
@@ -276,16 +237,16 @@ body.light .clock:before {
     border-radius: 3px;
 }
 
-body.light .mn:before {
+/* body.light .mn:before {
     background: #091921;
 
-}
+} */
 
 
 .sc:before {
     content: '';
     position: absolute;
-    width: 2px;
+    width: 1px;
     /* height: 150px; */
     height: 75px;
     background: #ececec;

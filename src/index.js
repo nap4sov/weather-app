@@ -4,6 +4,7 @@ import moment from 'moment';
 const refs = {
     currentWeatherContainer: document.querySelector('.weather-current'),
     dailyWeatherContainer: document.querySelector('.weather-daily'),
+    weatherHighlightsContainer: document.querySelector('.weather-highlights'),
 };
 
 const map = new mapboxgl.Map({
@@ -69,14 +70,15 @@ function fetchWeatherData({ latitude, longitude }) {
 function renderWeatherData({ current, daily }) {
     renderCurrentWeather(current);
     renderForecast(daily);
+    renderWeatherHighlights(current, daily);
 }
-function renderCurrentWeather({ dt, temp, pressure, weather }) {
+function renderCurrentWeather({ dt, temp, weather }) {
     const markup = `
     <p>${moment.unix(dt).format('dddd, DD MMMM')}</p>
     <p>${Math.round(temp)}°</p>
+
     <img src="http://openweathermap.org/img/w/${weather[0].icon}.png" class="weather-current-icon">
     <p>${weather[0].description}</p>
-    <p>${pressure} hPa</p>
     `;
 
     refs.currentWeatherContainer.insertAdjacentHTML('beforeend', markup);
@@ -90,10 +92,10 @@ function renderForecast(daily) {
             <p>${moment.unix(dt).format('dddd')}</p>
             <p>${Math.round(temp.min)}° - ${Math.round(temp.max)}°</p>
             <div class="weather-icon-wrap">
+            
                 <img src="http://openweathermap.org/img/w/${
                     weather[0].icon
                 }.png" class="weather-daily-icon">
-                <p>${weather[0].description}</p>
             </div>
         </li>
     `,
@@ -101,6 +103,44 @@ function renderForecast(daily) {
         .join('');
 
     refs.dailyWeatherContainer.insertAdjacentHTML('beforeend', markup);
+}
+
+function renderWeatherHighlights(current, daily) {
+    const { sunrise, sunset, pressure, humidity, uvi, visibility } = current;
+    const {
+        temp: { min, max },
+    } = daily[0];
+
+    const markup = `
+    <li class="weather-highlights-item">
+        <p>Min & max temp</p>
+        <p>Min ${Math.round(min)}</p>
+        <p>Max ${Math.round(max)}</p>
+    </li>
+    <li class="weather-highlights-item">
+        <p>Sunrise & sunset</p>
+        <p>Sunrise ${moment.unix(sunrise).format('HH:mm')}</p>
+        <p>Sunset ${moment.unix(sunset).format('HH:mm')}</p>
+    </li>
+    <li class="weather-highlights-item">
+        <p>Pressure</p>
+        <p>${pressure} hPa</p>
+    </li>
+    <li class="weather-highlights-item">
+        <p>Humidity</p>
+        <p>${humidity} %</p>
+    </li>
+    <li class="weather-highlights-item">
+        <p>UV Index</p>
+        <p>${uvi}</p>
+    </li>
+    <li class="weather-highlights-item">
+        <p>Visibility</p>
+        <p>${visibility} m</p>
+    </li>
+    `;
+
+    refs.weatherHighlightsContainer.insertAdjacentHTML('beforeend', markup);
 }
 
 const deg = 6;
