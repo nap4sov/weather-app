@@ -1,11 +1,16 @@
 import mapboxgl from 'mapbox-gl';
 import moment from 'moment';
+import axios from 'axios';
+import Clock from './components/clock';
 
 const refs = {
     currentWeatherContainer: document.querySelector('.weather-current'),
     dailyWeatherContainer: document.querySelector('.weather-daily'),
     weatherHighlightsContainer: document.querySelector('.weather-highlights'),
 };
+
+const clock = new Clock();
+clock.run();
 
 const map = new mapboxgl.Map({
     accessToken:
@@ -54,7 +59,7 @@ function recenterMap({ latitude, longitude }) {
         center: [longitude, latitude],
     });
 }
-function fetchWeatherData({ latitude, longitude }) {
+async function fetchWeatherData({ latitude, longitude }) {
     const URL = 'https://api.openweathermap.org/data/2.5/onecall';
     const API_KEY = 'c7efef58eaa1930baa9f2b67c324a631';
     return fetch(`${URL}?lat=${latitude}&lon=${longitude}&units=metric&appid=${API_KEY}`).then(
@@ -142,27 +147,3 @@ function renderWeatherHighlights(current, daily) {
 
     refs.weatherHighlightsContainer.insertAdjacentHTML('beforeend', markup);
 }
-
-const deg = 6;
-// 360 / (12 * 5);
-
-const hr = document.querySelector('#hr');
-const mn = document.querySelector('#mn');
-const sc = document.querySelector('#sc');
-
-setInterval(() => {
-    let day = new Date();
-    let hh = day.getHours() * 30;
-    let mm = day.getMinutes() * deg;
-    let ss = day.getSeconds() * deg;
-    let msec = day.getMilliseconds();
-
-    // VERY IMPORTANT STEP:
-
-    hr.style.transform = `rotateZ(${hh + mm / 12}deg)`;
-    mn.style.transform = `rotateZ(${mm}deg)`;
-    sc.style.transform = `rotateZ(${ss}deg)`;
-
-    // gives the smooth transitioning effect, but there's a bug here!
-    // sc.style.transition = `1s`;
-});
