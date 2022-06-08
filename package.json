@@ -6,14 +6,15 @@
     "homepage": "https://nap4sov.github.io/weather-app",
     "scripts": {
         "dev": "parcel src/*.html",
-        "build": "parcel build src/*.html --public-url /weather-app/"
+        "build": "parcel build src/*.html --public-url /weather-app/",
+        "deploy": "gh-pages -d dist"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/nap4sov/weather-app.git"
     },
     "keywords": [],
-    "author": "Alexander Repeta <alexander.repeta@gmail.com>",
+    "author": "Roman Havrylenko <g4vr0m@gmail.com>",
     "license": "ISC",
     "bugs": {
         "url": "https://github.com/nap4sov/weather-app/issues"

@@ -15,12 +15,39 @@ label, p, h1, h2, h3, h4, h5, h6 {
     margin: 0;
 }
 
+
+.header {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1170px;
+    padding: 20px;
+    background-color: transparent;
+}
+.form {
+    display: inline-block;
+    position: relative;
+}
+.form-input {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+.form-submit-btn {
+    position: absolute;
+    right: 2px;
+    top: 7px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
 #map {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 300px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 300px;
 }
 .map-wrap {
     position: relative;
@@ -49,10 +76,6 @@ label, p, h1, h2, h3, h4, h5, h6 {
 .highlights {
     display: flex;
     height: 600px;
-}
-
-.iconaaa {
-    fill: black;
 }
 
 .weather-wrap {
@@ -160,7 +183,7 @@ label, p, h1, h2, h3, h4, h5, h6 {
     /* The z-index property specifies the stack order of an element.
     /* An element with greater stack order is always in front of an element with a lower stack order.  */
     /* Note: z-index only works on positioned elements (position: absolute, position: relative, position: fixed, or position: sticky). */
-    z-index: 10000;
+    z-index: 15;
     /* kept as a high value, since wanted at top */
 }
 
@@ -253,4 +276,68 @@ label, p, h1, h2, h3, h4, h5, h6 {
     z-index: 12;
     /* z-index more than hour minute hand */
     border-radius: 3px;
+}
+
+
+.backdrop {
+    opacity: 100%;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #000000;
+    z-index: 50;
+
+    
+
+    transition: opacity 500ms linear;
+}
+
+.loaders-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    color: #ececec;
+    font-size: 30px;
+    
+}
+
+.backdrop.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loader1,
+.loader2,
+.loader3,
+.loader4 {
+    background-color: #ececec;
+    width: 10px;
+    height: 50px;
+    scale: 1;
+    
+}
+.loader1, 
+.loader2,
+.loader3 {
+    margin-right: 30px;
+}
+.loader1 {
+    animation: 500ms linear 0ms infinite alternate loader-scaling;
+}
+.loader2 {
+    animation: 500ms linear 120ms infinite alternate loader-scaling;
+}
+.loader3 {
+    animation: 500ms linear 240ms infinite alternate loader-scaling;
+}
+.loader4 {
+    animation: 500ms linear 360ms infinite alternate loader-scaling;
+}
+
+@keyframes loader-scaling {
+    from {transform: scale(1);} to {transform: scale(1.3);}
 }

@@ -16,6 +16,8 @@ class Weather {
     };
 
     renderCurrent = (current, element) => {
+        element.innerHTML = '';
+
         const { dt, temp, weather } = current;
         const markup = `
             <p>${moment.unix(dt).format('dddd, DD MMMM')}</p>
@@ -31,6 +33,8 @@ class Weather {
     };
 
     renderForecast = (daily, element) => {
+        element.innerHTML = '';
+
         const markup = daily
             .filter((el, idx) => idx !== 0)
             .map(
@@ -53,6 +57,8 @@ class Weather {
     };
 
     renderHighlights = (current, daily, element) => {
+        element.innerHTML = '';
+
         const { sunrise, sunset, pressure, humidity, uvi, visibility } = current;
         const {
             temp: { min, max },
