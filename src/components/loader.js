@@ -1,10 +1,9 @@
-class Loader {
-    showBackdrop = element => {
-        element.classList.remove('.is-hidden');
-    };
-    hideBackdrop = element => {
-        element.classList.add('.is-hidden');
-    };
+export function showLoader(element) {
+    element.classList.remove('.is-hidden');
 }
 
-export default Loader;
+export function hideLoader(element) {
+    setTimeout(() => {
+        element.classList.add('is-hidden');
+    }, 500);
+}

@@ -1,7 +1,8 @@
 import mapboxgl from 'mapbox-gl';
 import Clock from './components/clock';
-import Weather from './components/weather';
-import LocationService from './components/locationService';
+import { fetchData, renderCurrent, renderForecast, renderHighlights } from './components/weather';
+import { getPosition } from './components/locationService';
+import { showLoader, hideLoader } from './components/loader';
 
 const refs = {
     currentWeatherContainer: document.querySelector('.weather-current'),
@@ -21,7 +22,7 @@ function onFormInput(evt) {
 async function onFormSubmit(evt) {
     evt.preventDefault();
 
-    showLoader();
+    showLoader(refs.backdrop);
 
     userLocationMarker.remove();
     const position = await getLatLongFromQuery(query);
@@ -29,7 +30,7 @@ async function onFormSubmit(evt) {
     handleWeatherFetchAndRender(position, refs);
 
     refs.form.reset();
-    hideLoader();
+    hideLoader(refs.backdrop);
 }
 function onFocusChange(evt) {
     if (!evt.target.value) {
@@ -48,13 +49,10 @@ const mapProps = {
     zoom: 12,
 };
 
-showLoader();
+showLoader(refs.backdrop);
 
-const locationService = new LocationService();
 const clock = new Clock();
 clock.run();
-
-const weather = new Weather();
 
 const map = new mapboxgl.Map(mapProps);
 map.on('load', () => {
@@ -65,7 +63,7 @@ runApp(refs);
 
 async function runApp(refs) {
     try {
-        const position = await locationService.getPosition().then(response => {
+        const position = await getPosition().then(response => {
             return {
                 latitude: response.coords.latitude,
                 longitude: response.coords.longitude,
@@ -94,13 +92,13 @@ async function handleWeatherFetchAndRender(
     position,
     { currentWeatherContainer, dailyWeatherContainer, weatherHighlightsContainer },
 ) {
-    const { current, daily } = await weather.fetchData(position);
+    const { current, daily } = await fetchData(position);
 
-    weather.renderCurrent(current, currentWeatherContainer);
-    weather.renderForecast(daily, dailyWeatherContainer);
-    weather.renderHighlights(current, daily);
+    renderCurrent(current, currentWeatherContainer);
+    renderForecast(daily, dailyWeatherContainer);
+    renderHighlights(current, daily);
 
-    hideLoader();
+    hideLoader(refs.backdrop);
 }
 
 function getLatLongFromQuery(query) {
@@ -120,13 +118,4 @@ function getLatLongFromQuery(query) {
                 longitude: data.features[0].center[0],
             };
         });
-}
-
-function showLoader() {
-    refs.backdrop.classList.remove('is-hidden');
-}
-function hideLoader() {
-    setTimeout(() => {
-        refs.backdrop.classList.add('is-hidden');
-    }, 500);
 }

@@ -1,9 +1,5 @@
-class LocationService {
-    getPosition = () => {
-        return new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject);
-        });
-    };
+export function getPosition() {
+    return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+    });
 }
-
-export default LocationService;
