@@ -13,6 +13,16 @@ const firebaseConfig = {
 };
 const firebaseApp = initializeApp(firebaseConfig);
 const storage = getStorage(firebaseApp);
+const refs = {
+    min: document.getElementById('min'),
+    max: document.getElementById('max'),
+    sunrise: document.getElementById('sunrise'),
+    sunset: document.getElementById('sunset'),
+    pressure: document.getElementById('pressure'),
+    humidity: document.getElementById('humidity'),
+    uvi: document.getElementById('uvi'),
+    visibility: document.getElementById('visibility'),
+};
 
 class Weather {
     URL = 'https://api.openweathermap.org/data/2.5/onecall';
@@ -36,10 +46,10 @@ class Weather {
 
         const iconUrl = await this.getIconUrl(weather[0].icon);
         const markup = `
-            <p>${moment.unix(dt).format('dddd, DD MMMM')}</p>
-            <p>${Math.round(temp)}°</p>
+            <h3 class="weather-current-title">${moment.unix(dt).format('dddd, DD MMMM')}</h3>
+            <p class="weather-current-temp">${Math.round(temp)} °C</p>
             <img src="${iconUrl}" class="weather-current-icon">
-            <p>${weather[0].description}</p>
+            <p class="weather-current-desc">${weather[0].description}</p>
             `;
 
         element.insertAdjacentHTML('beforeend', markup);
@@ -55,8 +65,10 @@ class Weather {
                 const iconUrl = await this.getIconUrl(weather[0].icon);
                 return `
                     <li class="weather-daily-item">
-                        <p>${moment.unix(dt).format('dddd')}</p>
-                        <p>${Math.round(temp.min)}° - ${Math.round(temp.max)}°</p>
+                        <h3 class="weather-daily-day">${moment.unix(dt).format('dddd')}</h3>
+                        <p class="weather-daily-temp">${Math.round(temp.min)}° - ${Math.round(
+                    temp.max,
+                )}°</p>
                         <div class="weather-icon-wrap">
                             <img src="${iconUrl}.svg" class="weather-daily-icon">
                         </div>
@@ -68,49 +80,42 @@ class Weather {
         element.insertAdjacentHTML('beforeend', markup);
     }
 
-    renderHighlights = (current, daily, element) => {
-        element.innerHTML = '';
-
+    async renderHighlights(current, daily) {
         const { sunrise, sunset, pressure, humidity, uvi, visibility } = current;
         const {
             temp: { min, max },
         } = daily[0];
 
-        const markup = `
-            <li class="weather-highlights-item">
-                <p>Min & max temp</p>
-                <p>Min ${Math.round(min)}</p>
-                <p>Max ${Math.round(max)}</p>
-            </li>
-            <li class="weather-highlights-item">
-                <p>Sunrise & sunset</p>
-                <p>Sunrise ${moment.unix(sunrise).format('HH:mm')}</p>
-                <p>Sunset ${moment.unix(sunset).format('HH:mm')}</p>
-            </li>
-            <li class="weather-highlights-item">
-                <p>Pressure</p>
-                <p>${pressure} hPa</p>
-            </li>
-            <li class="weather-highlights-item">
-                <p>Humidity</p>
-                <p>${humidity} %</p>
-            </li>
-            <li class="weather-highlights-item">
-                <p>UV Index</p>
-                <p>${uvi}</p>
-            </li>
-            <li class="weather-highlights-item">
-                <p>Visibility</p>
-                <p>${visibility} m</p>
-            </li>
-            `;
+        refs.min.innerHTML = '';
+        refs.max.innerHTML = '';
+        refs.sunrise.innerHTML = '';
+        refs.sunset.innerHTML = '';
+        refs.pressure.innerHTML = '';
+        refs.humidity.innerHTML = '';
+        refs.uvi.innerHTML = '';
+        refs.visibility.innerHTML = '';
 
-        element.insertAdjacentHTML('beforeend', markup);
-    };
+        refs.min.insertAdjacentText('afterbegin', Math.round(min));
+        refs.max.insertAdjacentText('afterbegin', Math.round(max));
+        refs.sunrise.insertAdjacentText('beforeend', moment.unix(sunrise).format('HH:mm'));
+        refs.sunset.insertAdjacentText('beforeend', moment.unix(sunset).format('HH:mm'));
+        refs.pressure.insertAdjacentText('afterbegin', pressure);
+        refs.humidity.insertAdjacentText('afterbegin', humidity);
+        refs.uvi.insertAdjacentText('beforeend', uvi);
+        refs.visibility.insertAdjacentText('afterbegin', visibility);
+    }
 
     getIconUrl = id => {
         const iconId = `${id}.svg`;
         return getDownloadURL(ref(storage, iconId)).then(url => {
+            return url;
+        });
+    };
+    getStaticIconUrl = label => {
+        const iconLabel = `${label}.svg`;
+        return getDownloadURL(ref(storage, iconLabel)).then(url => {
+            console.log(iconLabel);
+            console.log(url);
             return url;
         });
     };

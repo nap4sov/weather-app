@@ -12,6 +12,7 @@ const refs = {
 };
 refs.form.addEventListener('input', onFormInput);
 refs.form.addEventListener('submit', onFormSubmit);
+refs.form.addEventListener('focusout', onFocusChange);
 // ---------
 let query = null;
 function onFormInput(evt) {
@@ -27,7 +28,15 @@ async function onFormSubmit(evt) {
     userLocationMarker = markUserLocation(position);
     handleWeatherFetchAndRender(position, refs);
 
+    refs.form.reset();
     hideLoader();
+}
+function onFocusChange(evt) {
+    if (!evt.target.value) {
+        return;
+    }
+
+    onFormSubmit(evt);
 }
 // ---------
 const mapProps = {
@@ -65,11 +74,9 @@ async function runApp(refs) {
 
         userLocationMarker = markUserLocation(position);
         handleWeatherFetchAndRender(position, refs);
-        hideLoader();
     } catch (error) {
         const position = { latitude: 50.45466, longitude: 30.5238 };
         handleWeatherFetchAndRender(position, refs);
-        hideLoader();
     }
 }
 
@@ -91,7 +98,9 @@ async function handleWeatherFetchAndRender(
 
     weather.renderCurrent(current, currentWeatherContainer);
     weather.renderForecast(daily, dailyWeatherContainer);
-    weather.renderHighlights(current, daily, weatherHighlightsContainer);
+    weather.renderHighlights(current, daily);
+
+    hideLoader();
 }
 
 function getLatLongFromQuery(query) {
@@ -117,5 +126,7 @@ function showLoader() {
     refs.backdrop.classList.remove('is-hidden');
 }
 function hideLoader() {
-    refs.backdrop.classList.add('is-hidden');
+    setTimeout(() => {
+        refs.backdrop.classList.add('is-hidden');
+    }, 500);
 }
