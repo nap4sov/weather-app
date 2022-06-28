@@ -5,18 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather</title>
+    <link rel="icon" type="image/x-icon" href="./sun.svg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.1.0/modern-normalize.min.css"
         integrity="sha512-wpPYUAdjBVSE4KJnH1VR1HeZfpl1ub8YT/NKx4PuQ5NmX2tKuGu6U/JRp5y+Y8XG2tV+wKQpNHVUX03MfMFn9Q=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.2/mapbox-gl.css' rel='stylesheet' />
-    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./sass/index.scss">
 
 </head>
 <body>  
     <main>
         
         <div class="container">
-            <aside class="current-weather">
+            <aside class="sidebar">
                 <form class="form">
                     <input class="form-input" type="text" name="search" id="search" placeholder="Enter desired location">
                     <button class="form-submit-btn" type="submit">
@@ -43,9 +44,9 @@
             </aside>
 
             <div class="info-wrap">
-                <div class="weather-wrap">
-                    <ul class="weather-daily"></ul>
-                </div>
+                
+                    <ul class="forecast"></ul>
+                
 
                 
                 <h2 class="highlights-title">Today's highlights</h2>

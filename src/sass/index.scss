@@ -1,0 +1,17 @@
+@import './general/common';
+
+@import './layout/container';
+@import './layout/backdrop';
+@import './layout/sidebar';
+@import './layout/main-info';
+@import './layout/highlights';
+@import './layout/forecast';
+
+@import './components/loader';
+@import './components/input-form';
+@import './components/map';
+@import './components/clock';
+@import './components/current-weather';
+@import './components/forecast-item';
+@import './components/highlights-list';
+@import './components/highlights-item';

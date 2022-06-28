@@ -6,14 +6,14 @@ import { showLoader, hideLoader } from './components/loader';
 
 const refs = {
     currentWeatherContainer: document.querySelector('.weather-current'),
-    dailyWeatherContainer: document.querySelector('.weather-daily'),
+    dailyWeatherContainer: document.querySelector('.forecast'),
     weatherHighlightsContainer: document.querySelector('.weather-highlights'),
     backdrop: document.querySelector('.backdrop'),
     form: document.querySelector('.form'),
 };
 refs.form.addEventListener('input', onFormInput);
 refs.form.addEventListener('submit', onFormSubmit);
-refs.form.addEventListener('focusout', onFocusChange);
+// refs.form.addEventListener('focusout', onFocusChange);
 // ---------
 let query = null;
 function onFormInput(evt) {
@@ -22,7 +22,7 @@ function onFormInput(evt) {
 async function onFormSubmit(evt) {
     evt.preventDefault();
 
-    showLoader(refs.backdrop);
+    // showLoader(refs.backdrop);
 
     userLocationMarker.remove();
     const position = await getLatLongFromQuery(query);
@@ -30,15 +30,23 @@ async function onFormSubmit(evt) {
     handleWeatherFetchAndRender(position, refs);
 
     refs.form.reset();
-    hideLoader(refs.backdrop);
+    // hideLoader(refs.backdrop);
 }
-function onFocusChange(evt) {
-    if (!evt.target.value) {
-        return;
-    }
+// async function onFocusChange(evt) {
+//     if (!evt.target.value) {
+//         return;
+//     }
+//     showLoader(refs.backdrop);
 
-    onFormSubmit(evt);
-}
+//     userLocationMarker.remove();
+//     const position = await getLatLongFromQuery(query);
+//     userLocationMarker = markUserLocation(position);
+//     handleWeatherFetchAndRender(position, refs);
+
+//     refs.form.reset();
+//     hideLoader(refs.backdrop);
+//     console.log('asdasda');
+// }
 // ---------
 const mapProps = {
     accessToken:
@@ -72,9 +80,11 @@ async function runApp(refs) {
 
         userLocationMarker = markUserLocation(position);
         handleWeatherFetchAndRender(position, refs);
+        hideLoader(refs.backdrop);
     } catch (error) {
         const position = { latitude: 50.45466, longitude: 30.5238 };
         handleWeatherFetchAndRender(position, refs);
+        hideLoader(refs.backdrop);
     }
 }
 
@@ -90,8 +100,9 @@ function markUserLocation({ latitude, longitude }) {
 
 async function handleWeatherFetchAndRender(
     position,
-    { currentWeatherContainer, dailyWeatherContainer, weatherHighlightsContainer },
+    { currentWeatherContainer, dailyWeatherContainer },
 ) {
+    showLoader(refs.backdrop);
     const { current, daily } = await fetchData(position);
 
     renderCurrent(current, currentWeatherContainer);
@@ -112,7 +123,6 @@ function getLatLongFromQuery(query) {
             return res.json();
         })
         .then(data => {
-            console.log(data.features[0].center);
             return {
                 latitude: data.features[0].center[1],
                 longitude: data.features[0].center[0],

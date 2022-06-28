@@ -1,0 +1,24 @@
+.form {
+    display: inline-block;
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.form-input {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+
+    &::placeholder {
+            font-size: 12px;
+        }
+}
+
+.form-submit-btn {
+    position: absolute;
+    right: 2px;
+    top: 7px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}

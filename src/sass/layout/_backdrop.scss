@@ -1,0 +1,19 @@
+.backdrop {
+    opacity: 1;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #000000;
+    z-index: 50;
+
+
+
+    transition: opacity 500ms linear;
+}
+
+.backdrop.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+}

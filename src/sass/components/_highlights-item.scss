@@ -1,0 +1,27 @@
+.weather-highlights-item {
+    
+    height: 120px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0em 0.5em 0.5em rgba(78, 78, 78, 0.206);
+    @media screen and(min-width:1024px) {
+        min-width: 132px;
+    }
+}
+
+.weather-highlights-title {
+    font-weight: 500;
+    font-size: 13px;
+    color: #827f80;
+}
+
+.weather-highlights-info {
+    margin-top: 10px;
+    margin-left: 10px;
+    color: #000000;
+}
+
+.highlights-icon {
+    margin-right: 7px;
+}

@@ -1,0 +1,12 @@
+.sidebar {
+    @media screen and (max-width:767px) {
+        padding: 20px;
+    }
+    @media screen and (min-width: 768px) {
+        padding: 25px 30px 15px 30px;
+            background-color: #fff;
+        height: 100vh;
+        margin-left: auto;
+        box-shadow: -200px 100px 0 200px #fff, 2px 0px 10px 5px rgba(103, 103, 103, 0.3);
+    }
+}
